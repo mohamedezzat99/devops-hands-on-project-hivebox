@@ -3,7 +3,7 @@ from pathlib import Path
 
 def get_project_version() -> str:
     """Reads the project version from the pyproject.toml file."""
-    pyproject_path = Path(__file__).parent / "pyproject.toml"
+    pyproject_path = Path(__file__).parent.parent / "pyproject.toml"
     
     try:
         with open(pyproject_path, "rb") as f:
