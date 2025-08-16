@@ -3,6 +3,9 @@ node {
     Boolean testResult = false
 
     stage('Build') {
+        checkout scm
+        sh "echo Current Directory is ${pwd()}"
+        sh 'ls -la'
         sh "docker build -t ${containerTag} ."
         sh "docker run -p 8000:8000 ${containerTag}"
     }
