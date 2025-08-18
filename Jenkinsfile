@@ -1,25 +1,19 @@
 node {
     String containerTag = 'myapp-hivebox'
-    Boolean testResult = false
 
     stage('Build') {
         checkout scm
-        sh "echo Current Directory is ${pwd()}"
-        sh 'ls -la'
         sh "docker build -t ${containerTag} ."
-        sh "docker run -p 8000:8000 ${containerTag}"
     }
     stage('Test') {
-        testResult = sh(script:'pytest', returnStdout:true)
+        sh "docker run --rm ${containerTag} pytest"
     }
     stage('Deploy') {
-        if (testResult) {
-            withCredentials([
-                usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')
-                ]) {
-                sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-            }
-            sh "docker push ${containerTag}"
+        withCredentials([
+            usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')
+            ]) {
+            sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
         }
+        sh "docker push ${containerTag}"
     }
 }
