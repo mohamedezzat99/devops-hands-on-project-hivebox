@@ -47,4 +47,4 @@ EXPOSE 8000
 # **THE SECOND KEY FIX**: Call uvicorn directly.
 # It's now on the PATH, and we are no longer using `uv run`.
 # This prevents any runtime re-installation.
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
