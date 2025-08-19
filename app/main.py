@@ -8,9 +8,11 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="My Awesome API")
 
+
 @app.get("/version")
 async def get_version():
     return {"version": __version__}
+
 
 @app.get("/temperature")
 async def get_temperature():
