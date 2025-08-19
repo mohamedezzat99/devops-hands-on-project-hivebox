@@ -15,12 +15,12 @@ node {
             ]) {
             sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
             sh "docker tag ${containerTag} ${USER}/my-repo:1.0.0"
-            }
+        }
     }
 }
 
 void linting() {
-    sh 'ruff format'
-    sh 'ruff check --fix'
+    sh "docker run --rm -v ${pwd()}:/src ghcr.io/astral-sh/ruff check ."
+    sh "docker run --rm -v ${pwd()}:/src ghcr.io/astral-sh/ruff format ."
     sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
 }
